@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %} Account {% endblock %}
+{% load static %}
+{% block link %}
+<link rel="stylesheet" type="text/css" href="{% static 'detail.css' %}">
+
+{% endblock %}
+{% block content %}
+{% if request.user.is_authenticated %}
+<section class="py-5">
+    <div class="container">
+        <div class="row gx-5">
+            {% for account in accounts %}
+            <main class="col-lg-6">
+                <div class="ps-lg-3">
+                    <h4 class="title text-dark">
+                        {{account.user.first_name}}
+
+                    </h4>
+                    <h4 class="title text-dark">
+                        {{account.user.last_name}}
+
+                    </h4>
+                    <div class="row">
+                        <dt class="col-3">Balance:</dt>
+                        <dd class="col-9">{{account.balance}}</dd>
+
+                    </div>
+
+                    <hr />
+
+                    
+                    <form method="post" action="{% url 'account' %}">
+                        {% csrf_token %}
+                        <input name="balance" type="text">
+                        <button class="btn btn-primary" type="submit">Add to balance</button>
+                    </form>
+                    
+                </div>
+            </main>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% else %}
+<h5 class="alert-heading col-lg-10"> You are not logged in.Please log in yo see your account</h5>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,174 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load cart_filter %}
+{% block link %}
+<link rel="stylesheet" type="text/css" href="{% static 'cart.css' %}">
+{% endblock %}
+
+{% block title %} Purchase History {% endblock %}
+
+{% block content %}
+<div class="container mt-3">
+<div class="cart_section">
+    {% if request.user.is_authenticated %}
+        {% if products|length == 0 %}
+        <h5 class="alert-heading col-lg-10"> There are no purchases</h5>
+        {% else %}
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-10 offset-lg-1">
+                    <div class="cart_container">
+                        <div class="cart_items">
+                            <br>
+                            {% for product in products %}
+                            <ul class="cart_list">
+                                <li class="cart_item clearfix">
+                                    <div class="cart_item_info d-flex flex-md-row flex-column justify-content-between">
+                                        {% if product.refund_requested and product.refund_accepted == False %}
+                                            <div class="cart_item_name cart_info_col">
+                                                <div class="cart_item_title">Name</div>
+                                                <div class="cart_item_text">{{product.product.name}}</div>
+                                            </div>
+                                            <div class="cart_item_name cart_info_col">
+                                                <div class="cart_item_title">User</div>
+                                                <div class="cart_item_text">{{product.user}}</div>
+                                            </div>
+                                            {% if product.product.purchased_price == 0 %}
+                                            <div class="cart_item_price cart_info_col">
+                                                <div class="cart_item_title">Price</div>
+                                                <div class="cart_item_text">{{product.product.price}} TL</div>
+                                            </div>
+                                            {% else %}
+                                            <div class="cart_item_price cart_info_col">
+                                                <div class="cart_item_title">Price</div>
+                                                <div class="cart_item_text">{{product.product.purchased_price}} TL</div>
+                                            </div>
+                                            {% endif %}
+                                            <div class="cart_item_total cart_info_col">
+                                                <div class="cart_item_title">Model</div>
+                                                <div class="cart_item_text">{{product.product.model}}</div>
+                                            </div>
+                                            <div class="cart_item_total cart_info_col">
+                                                <div class="cart_item_title">Warranty Status</div>
+                                                <div class="cart_item_text">{{product.product.warranty_status}}</div>
+                                            </div>
+                                            <div class="cart_item_total cart_info_col">
+                                                <div class="cart_item_title">Distributor Info</div>
+                                                <div class="cart_item_text">{{product.product.distributor_info}}</div>
+                                            </div>
+                                            <div class="cart_item_total cart_info_col">
+                                                <div class="cart_item_title">Refund Status</div>
+                                                <div class="cart_item_text">Refund Requested</div>
+                                            </div>
+                                        {% elif product.refund_requested and product.refund_accepted %}
+                                            <div class="cart_item_name cart_info_col">
+                                                <div class="cart_item_title">Name</div>
+                                                <div class="cart_item_text">{{product.product.name}}</div>
+                                            </div>
+                                            <div class="cart_item_name cart_info_col">
+                                                <div class="cart_item_title">User</div>
+                                                <div class="cart_item_text">{{product.user}}</div>
+                                            </div>
+                                            {% if product.product.purchased_price == 0 %}
+                                            <div class="cart_item_price cart_info_col">
+                                                <div class="cart_item_title">Price</div>
+                                                <div class="cart_item_text">{{product.product.price}} TL</div>
+                                            </div>
+                                            {% else %}
+                                            <div class="cart_item_price cart_info_col">
+                                                <div class="cart_item_title">Price</div>
+                                                <div class="cart_item_text">{{product.product.purchased_price}} TL</div>
+                                            </div>
+                                            {% endif %}
+                                            <div class="cart_item_price cart_info_col">
+                                                <div class="cart_item_title">Quantity</div>
+                                                <div class="cart_item_text">{{product.product.quantity}} TL</div>
+                                            </div>
+                                            <div class="cart_item_total cart_info_col">
+                                                <div class="cart_item_title">Model</div>
+                                                <div class="cart_item_text">{{product.product.model}}</div>
+                                            </div>
+                                            <div class="cart_item_total cart_info_col">
+                                                <div class="cart_item_title">Warranty Status</div>
+                                                <div class="cart_item_text">{{product.product.warranty_status}}</div>
+                                            </div>
+                                            <div class="cart_item_total cart_info_col">
+                                                <div class="cart_item_title">Distributor Info</div>
+                                                <div class="cart_item_text">{{product.product.distributor_info}}</div>
+                                            </div>
+                                            <div class="cart_item_total cart_info_col">
+                                                <div class="cart_item_title">Refund Status</div>
+                                                <div class="cart_item_text">Refund Accepted</div>
+                                            </div>
+
+                                        {% else %}
+                                        <div class="cart_item_name cart_info_col">
+                                            <div class="cart_item_title">Name</div>
+                                            <div class="cart_item_text">{{product.product.name}}</div>
+                                        </div>
+                                        <div class="cart_item_name cart_info_col">
+                                            <div class="cart_item_title">User</div>
+                                            <div class="cart_item_text">{{product.user}}</div>
+                                        </div>
+                                        {% if product.product.purchased_price == 0 %}
+                                            <div class="cart_item_price cart_info_col">
+                                                <div class="cart_item_title">Price</div>
+                                                <div class="cart_item_text">{{product.product.price}} TL</div>
+                                            </div>
+                                        {% else %}
+                                        <div class="cart_item_price cart_info_col">
+                                            <div class="cart_item_title">Price</div>
+                                            <div class="cart_item_text">{{product.product.purchased_price}} TL</div>
+                                        </div>
+                                        {% endif %}
+                                        <div class="cart_item_total cart_info_col">
+                                            <div class="cart_item_title">Model</div>
+                                            <div class="cart_item_text">{{product.product.model}}</div>
+                                        </div>
+                                        <div class="cart_item_total cart_info_col">
+                                            <div class="cart_item_title">Warranty Status</div>
+                                            <div class="cart_item_text">{{product.product.warranty_status}}</div>
+                                        </div>
+                                        <div class="cart_item_total cart_info_col">
+                                            <div class="cart_item_title">Distributor Info</div>
+                                            <div class="cart_item_text">{{product.product.distributor_info}}</div>
+                                        </div>
+                                        <div class="cart_item_total cart_info_col">
+                                            <div class="cart_item_title">Refund Status</div>
+                                            <div class="cart_item_text">No Refund Requested</div>
+                                        </div>
+
+                                            {% if days|get_item:product <= 30 %}
+                                                <form method="post" class="justify-content-center"
+                                                    action="{% url 'purchased_items' %}">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" name="command" value="return">
+                                                    <input type="hidden" name="product_id" value="{{product.ID}}">
+                                                    <button class="btn btn-danger" type="submit">Return</button>
+                                                </form>
+                                            {% else %}
+                                            <div class="cart_item_total cart_info_col">
+                                                <div class="cart_item_text">Purchase date more than 30 days.Cannot refund!</div>
+                                            </div>
+                                            {% endif %}
+                                        {% endif %}
+                                    </div>
+                                </li>
+                            </ul>
+                            <br>
+                            <br>
+                            <br>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    {% else %}
+    <h5 class="alert-heading col-lg-10"> You are not logged in</h5>
+    <h5 class="alert-heading col-lg-10">Please log in to see your purchases.</h5>
+    {% endif %}
+</div>
+</div>
+{% endblock %}

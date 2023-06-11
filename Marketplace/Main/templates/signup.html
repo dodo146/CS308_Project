@@ -1,0 +1,39 @@
+{% extends 'base.html' %} 
+{% load crispy_forms_tags %}
+{% load static %}
+{% block link %}
+<link rel="stylesheet" type="text/css" href="{% static 'asterisks.css' %}">
+{% endblock %}
+{% block title %} Signup {% endblock %} 
+
+{% block content %}
+<section class="vh-120" style="background-color: #3b2f2f">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+        <div class="card shadow-2-strong" style="border-radius: 1rem">
+          <div class="card-body p-5 text-center">
+            <h3 class="mb-3" style="margin-top: 0px; margin-bottom: 20px">Sign Up</h3>
+            <form method="POST">
+              {% csrf_token %}
+                {{form|crispy}}
+              {% if form.errors or form.non_field_errors %}
+                <div class="alert-danger">
+                  {% for field in form %}
+                    {{field.errors}} 
+                  {% endfor %}
+
+                  {{form.non_field_errors}}
+                </div>
+                {% endif %}
+              <button class="btn btn-primary btn-lg btn-block" style="margin-top: 20px" type="submit">Sign up</button>
+            </form>
+            <p style="margin-top: 15px; margin-bottom: 10px" class="text-muted">Already have an account? <a href="{% url 'login' %}">Login</a></p>
+            <p style="font-size: 12px; margin-top: 10px">By creating an account you agree to our<a href="#"> Terms and Policy</a>.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

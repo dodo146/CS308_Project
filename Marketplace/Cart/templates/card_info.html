@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block link %}
+<link rel="stylesheet" type="text/css" href="{% static 'cart.css' %}">
+{% endblock %}
+{% block content %}
+
+    <div class="cart_section">
+        <div class="container-fluid">
+            <h1 class="mb-5 text-3xl">Checkout</h1>
+    
+            <div class="col-lg-10 offset-lg-1", style=" background-color:white:">
+                <div class="cart_container">
+                    <h2 class="mb-5 uppercase text-lg">Shipping information</h2>
+    
+                    <div class="flex space-x-6">
+                        <div class="w-1/2 mb-4">
+                            <label class="inline-block mb-2">First name</label>
+                            <input name="first_name" type="text" value="{{ request.user.first_name }}">
+                        </div>
+    
+                        <div class="w-1/2 mb-4">
+                            <label class="inline-block mb-2">Last name</label>
+                            <input name="last_name" type="text" value="{{ request.user.last_name }}">
+                        </div>
+                    </div>
+    
+                    <div class="mb-4">
+                        <label class="inline-block mb-2">Address</label>
+                        <input name="address" type="text">
+                    </div>
+    
+                    <div class="flex space-x-6">
+                        <div class="w-1/2 mb-4">
+                            <label class="inline-block mb-2">Zip code</label>
+                            <input name="zipcode" type="text">
+                        </div>
+    
+                        <div class="w-1/2 mb-4">
+                            <label class="inline-block mb-2">City/Place</label>
+                            <input name="place" type="text" >
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="mb-6 p-6 bg-gray-100 rounded-xl">
+                    <h2 class="mb-5 uppercase text-lg">Payment Information</h2>
+                    <div class="mb-4">
+                        <label class="inline-block mb-2">Name on Card</label>
+                        <input name="name_on_cardr"   >
+                    </div>
+                    <div class="mb-4">
+                        <label class="inline-block mb-2">Card Number</label>
+                        <input name="card_number"   >
+                    </div>
+    
+                    <div class="mb-4">
+                        <label class="inline-block mb-2">Expiration Date</label>
+                        <input name="expiration_date" placeholder = "(MM/YY)" >
+                    </div>
+                    <div class="mb-4">
+                        <label class="inline-block mb-2">CVV</label>
+                        <input name="cvv" >
+                    </div>
+                    {% if product_id and quantity %}
+                        <form method="post" class="cart_buttons justify-content-between" action="{% url 'buy' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="product_id" value="{{product_id}}">
+                            <input type="hidden" name="quantity" value="{{quantity}}">
+                            <button class="btn btn-primary", style="margin-right:1100px;" type="submit">Complete Purchase</button>
+                        </form>
+                    {% else %}
+                        <form method="post" class="cart_buttons justify-content-between" action="{% url 'buy' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="command" value="buy_all">
+                            <button class="btn btn-primary", style="margin-right:1100px;" type="submit">Complete Purchase</button>
+                        </form>
+                    {% endif %}
+
+                </div>
+
+                
+                </div>
+            </div>
+        </div>
+    
+
+    </div>
+
+   
+
+{% endblock %}

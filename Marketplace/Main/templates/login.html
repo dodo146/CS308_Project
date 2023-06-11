@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block link %}
+<link rel="stylesheet" type="text/css" href="{% static 'asterisks.css' %}">
+{% endblock %}
+{% block title %} Login {% endblock %}
+
+
+{% block content %}
+<section class="vh-120" style="background-color: #ffffff;">
+	<div class="container py-5 h-100">
+		<div class="row d-flex justify-content-center align-items-center h-100">
+			<div class="col-12 col-md-8 col-lg-6 col-xl-5">
+				<div class="card shadow-2-strong" style="border-radius: 1rem;">
+					<div class="card-body p-5 text-center">
+
+						<h3 class="mb-5">Log in</h3>
+						<form method="POST" action=".">
+							{% csrf_token %}
+							{{form|crispy}}
+							{% if form.errors or form.non_field_errors %}
+							<div class="alert-danger">
+								{% for field in form %}
+								{{field.errors}}
+								{% endfor %}
+
+								{{form.non_field_errors}}
+							</div>
+							{% endif %}
+							<input type="hidden" name="next" value="{{next}}">
+							<button class="btn btn-primary btn-lg btn-block" type="submit">Login</button>
+							<p style="margin-top: 15px; margin-bottom: 10px" class="text-muted">Don't have an account?
+								<a href="{% url 'signup' %}">Sign up</a></p>
+							<hr class="my-4">
+							<div class="btn-group-vertical">
+								<button class="btn btn-lg btn-block btn-primary my-2 rounded"
+									style="background-color: #dd4b39;" type="submit"><i class="fab fa-google me-2"></i>
+									Sign
+									in with google</button>
+
+								<p style="text-align: center; margin: 0 auto; ">OR</P>
+
+								<button class="btn btn-lg btn-block btn-primary mb-2 my-2 rounded"
+									style="background-color: #3b5998;" type="submit"><i
+										class="fab fa-facebook-f me-2"></i>Sign in with facebook</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+{% endblock %}
